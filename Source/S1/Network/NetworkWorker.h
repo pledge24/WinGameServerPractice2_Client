@@ -51,3 +51,28 @@ protected:
 	FSocket* Socket;
 	TWeakPtr<class PacketSession> SessionRef;
 };
+
+
+class S1_API SendWorker : public FRunnable
+{
+public:
+	SendWorker(FSocket* Socket, TSharedPtr<class PacketSession> Session);
+	~SendWorker();
+
+	virtual bool Init() override;
+	virtual uint32 Run() override;
+	virtual void Exit() override;
+
+	bool SendPacket(SendBufferRef SendBuffer);
+
+	void Destroy();
+
+private:
+	bool SendDesiredBytes(const uint8* Buffer, int32 Size);
+
+protected:
+	FRunnableThread* Thread = nullptr;
+	bool Running = true;
+	FSocket* Socket;
+	TWeakPtr<class PacketSession> SessionRef;
+};

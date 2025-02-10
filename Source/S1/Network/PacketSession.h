@@ -16,7 +16,10 @@ public:
 
 	void Run();
 
-	void Recv();
+	UFUNCTION(BlueprintCallable)
+	void HandleRecvPackets();
+
+	void SendPacket(SendBufferRef SendBuffer);
 
 	void Disconnect();
 
@@ -28,4 +31,5 @@ public:
 
 	// GameThread와 NetworkThread가 데이터 주고 받는 공용 큐.
 	TQueue<TArray<uint8>> RecvPacketQueue;
+	TQueue<SendBufferRef> SendPacketQueue;
 };
